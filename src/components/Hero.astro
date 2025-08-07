@@ -1,0 +1,53 @@
+---
+import type { HeroProps } from "@types";
+type Props = HeroProps;
+import { Image } from "astro:assets";
+
+const { name, specialty, summary, email, image } = Astro.props;
+---
+
+<section class="mt-[64px] py-4 md:py-4" id="#hero">
+  <div class="flex gap-[64px]">
+    <div>
+      <h1
+        class="mb-1.5 font-serif text-7xl font-bold tracking-tightest text-white sm:text-8xl md:mb-0 md:text-9xl"
+      >
+        {name}
+      </h1>
+      <p
+        class="mb-1.5 font-serif text-4xl leading-[46px] font-bold tracking-tighter text-primary sm:text-5xl md:text-6xl"
+      >
+        {specialty}
+      </p>
+      <p class="mb-16 text-base font-normal text-neutral md:text-lg">
+        I am an experienced Mobile Developer with
+        <span class="underline">
+          <span class="font-bold text-red-500"> 3+ </span> years
+        </span>
+        of experience in mobile development field,
+        <span class="underline">
+          <span class="font-bold text-red-500"> 5+ </span> application
+        </span> handled, and
+        <span class="underline">
+          <span class="font-bold text-red-500"> 3 </span> application
+        </span>
+        had been 
+        <span class="underline">
+          released
+        to Play Store.
+        </span>
+      </p>
+    </div>
+    <div
+      class="hidden h-80 w-64 flex-shrink-0 rotate-[5deg] hover:rotate-[-5deg] duration-300 bg-white p-4 md:block md:rotate-[7deg]"
+    >
+      <Image
+        class="object-cover"
+        src={image}
+        width="260"
+        height="260"
+        alt={name}
+      />
+    </div>
+  </div>
+</section>

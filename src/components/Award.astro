@@ -1,0 +1,39 @@
+---
+import Section from "./Section.astro";
+import type { AwardProps } from "@types";
+
+interface Props {
+  awards: AwardProps[];
+}
+
+const { awards } = Astro.props;
+---
+
+<Section text="Awards" href="awards">
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-10">
+    {awards.map(({ name, date, heldBy, credentialLink, summary }) => (
+      <div class="rounded-xl border border-white/10 bg-[#1c232d]/90 p-6 shadow-md">
+        <h3 class="text-lg font-semibold text-primary">{name}</h3>
+        <p class="text-sm text-neutral">{heldBy}</p>
+        <p class="mb-2 text-sm text-neutral/70">{date}</p>
+
+        <ul class="list-disc pl-5 text-neutral text-sm leading-relaxed mt-2">
+          {summary.map((point) => (
+            <li>{point}</li>
+          ))}
+        </ul>
+
+        {credentialLink && (
+          <a
+            href={credentialLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block text-xs text-blue-400 underline hover:text-blue-300"
+          >
+            View Credential
+          </a>
+        )}
+      </div>
+    ))}
+  </div>
+</Section>

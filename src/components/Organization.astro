@@ -1,0 +1,37 @@
+---
+import Section from "./Section.astro";
+import type { OrganizationProps } from "@types";
+
+interface Props {
+  organizations: OrganizationProps[];
+}
+
+const { organizations } = Astro.props;
+---
+
+<Section text="Organizations" href="organizations">
+  <div class="space-y-8">
+    {organizations.map(({ name, timeline }) => (
+      <div class="rounded-xl border border-white/10 bg-[#1c232d]/90 p-6 shadow-md">
+        <h3 class="text-xl font-semibold text-primary mb-4">{name}</h3>
+        <div class="space-y-5">
+          {timeline.map(({ position, startDate, endDate, summary }) => (
+            <div>
+              <p class="text-neutral font-medium">
+                • {position}
+              </p>
+              <p class="text-neutral/70 text-sm mb-1">
+                {startDate} – {endDate}
+              </p>
+              <ul class="list-disc pl-5 text-sm text-neutral space-y-1">
+                {summary.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</Section>

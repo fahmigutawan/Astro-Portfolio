@@ -1,0 +1,88 @@
+---
+import type { SiteConfig } from "@types";
+
+type Props = Pick<SiteConfig, "author" | "socialLinks">;
+
+const { author, socialLinks } = Astro.props;
+const currentYear = new Date().getFullYear();
+---
+
+<header
+  class="sticky top-0 z-50 mx-auto flex w-full animate-slide-in items-center justify-between bg-gray-800 py-6 border-t border-neutral/20 px-5 text-white"
+><ul class="flex flex-wrap justify-center items-center gap-x-5 text-xs w-full">
+  {
+    socialLinks.map(({ text, href, image }) => (
+      <li>
+        <a
+          href={href}
+          target="_blank"
+          class="inline-flex items-center gap-2 px-4 py-3 after:relative after:bottom-[-4px] after:content-[url(/external.svg)] hover:text-primary"
+        >
+          <img src={image} alt={text} class="w-7 h-7" />
+          <span class="hidden sm:inline">{text}</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+</header>
+
+
+<script>
+  // Toggle mobile menu
+  const button = document.querySelector("#menu-button");
+  const menu = document.querySelector("#main-menu");
+  const navItems = document.querySelectorAll("#main-menu > ul > li > a");
+
+  const toggleMenu = () => {
+    menu?.classList.toggle("hidden");
+    const isHidden = menu?.classList.contains("hidden");
+    button?.setAttribute("aria-expanded", `${!isHidden}`);
+  };
+
+  button?.addEventListener("click", toggleMenu);
+  navItems.forEach((item) => {
+    item?.addEventListener("click", toggleMenu);
+  });
+
+  // Update navigation based on scroll position with Intersection Observer
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navItems.forEach((item) => {
+            if (item.getAttribute("href") === `#${entry.target.id}`) {
+              item.classList.add("text-white", "md:after:opacity-100");
+            } else {
+              item.classList.remove("text-white", "md:after:opacity-100");
+            }
+          });
+        }
+      });
+    },
+    { threshold: 0.5 },
+  );
+
+  document.querySelectorAll("section").forEach((section) => {
+    observer.observe(section);
+  });
+
+  // Cleanup observer
+  document.onvisibilitychange = () => {
+    if (document.visibilityState === "hidden") {
+      observer.disconnect();
+    } else {
+      document.querySelectorAll("section").forEach((section) => {
+        observer.observe(section);
+      });
+    }
+  };
+</script>
+
+<style>
+  header {
+    animation-timeline: scroll();
+    animation-range: 0 650px;
+  }
+</style>

@@ -1,0 +1,63 @@
+---
+import { boldHunter } from "src/helper/ BoldHelper";
+import Section from "./Section.astro";
+import type { ExperienceProps } from "@types";
+
+interface Props {
+  experience: ExperienceProps[];
+}
+
+const { experience } = Astro.props;
+---
+
+<Section text="Work Experience" href="experience">
+  {
+    experience.map(({ company, sub_experience }) => (
+      <div class="mb-10">
+        <h3 class="mb-3 font-serif text-2xl font-semibold text-white">
+          {company}
+        </h3>
+
+        {sub_experience.map(
+          ({ position, startDate, endDate, summary, work_description }, i) => (
+            <div class="mb-6 flex flex-col gap-2">
+              <div class="relative flex items-center gap-3 pl-5">
+                <span class="absolute top-1.5 left-0 h-3 w-3 rounded-full bg-primary" />
+                <h4 class="font-serif text-xl font-medium text-primary">
+                  {position}
+                </h4>
+              </div>
+
+              <span class="pl-5 text-sm text-white/70">
+                {startDate} — {endDate}
+              </span>
+
+              <ul class="mt-2 list-none pl-5">
+                {summary.map((log, j) => (
+                  <li
+                    class="relative mb-2 pl-8 text-base text-neutral before:absolute before:top-1 before:left-0 before:content-[url(/check.svg)]"
+                    set:html={boldHunter(log)}
+                  />
+                ))}
+              </ul>
+
+              {work_description.length > 0 && (
+                <>
+                  <strong class="pl-5 font-bold text-yellow-700">Work Description</strong>
+                  <ul class="mt-2 list-none pl-12">
+                    {work_description.map((item, j) => (
+                      <li
+                        class="relative mb-2 pl-6 text-base text-neutral before:absolute before:top-2 before:left-0 before:h-2 before:w-2 before:rounded-full before:bg-neutral"
+                        set:html={boldHunter(item)}
+                      />
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+          ),
+        )}
+      </div>
+    ))
+  }
+</Section>
